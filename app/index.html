@@ -11,6 +11,8 @@
 
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" type="text/css" href="/bower_components/jquery-ui/themes/base/all.css">
+    <link rel="stylesheet" type="text/css" href="/bower_components/jquery-ui-rotatable/jquery.ui.rotatable.css">
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -38,11 +40,20 @@
 
     <div class="moodboard">
 
+        <div id="one" class="asset" style="position:absolute; top:60px; left:300px">
+            <div class="draghandle" style="position:relative; width:100%; height:10px; background-color:#fff"></div>
+            <img src="//cdn-images.farfetch.com/11/15/41/77/11154177_5620201_240.jpg" />
+        </div>
 
-      <img src="//cdn-images.farfetch.com/11/15/41/77/11154177_5620201_240.jpg" class="draggable" style="position:absolute; top:100px; left:200px" />
+        <div id="two" class="asset" style="position:absolute; top:250px; left:240px">
+            <div class="draghandle" style="position:relative; top:0; left:0; width:100%; height:10px; background-color:#fff;"></div>
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/DIEDJ9qbtvo" frameborder="0" allowfullscreen></iframe>
+        </div>
 
-      <img src="//cdn-images.farfetch.com/11/17/98/31/11179831_5661371_300.jpg" class="draggable" style="position:absolute; top:80px; left:360px" />
-
+        <div id="three" class="asset" style="position:absolute; top:100px; left:100px;">
+            <div class="draghandle" style="position:relative; width:100%; height:10px; background-color:#fff"></div>
+            <img src="//cdn-images.farfetch.com/11/17/98/31/11179831_5661371_300.jpg" />
+        </div>
 
     </div>
 
@@ -51,6 +62,8 @@
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="/bower_components/jquery-ui-rotatable/jquery.ui.rotatable.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -67,8 +80,6 @@
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/collapse.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
-
-    <script src="/bower_components/draggabilly/dist/draggabilly.pkgd.min.js"></script>
     <!-- endbuild -->
 
     <!-- build:js scripts/main.js -->

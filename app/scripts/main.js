@@ -1,31 +1,43 @@
 $(function(){
 
-  function listener(event, pointer) {
-    var draggie = $(this).data('draggabilly');
-    console.log(event.type, draggie.position.x, draggie.position.y );
-    console.log('pointer', pointer);
-  }
+  var elems = ["#one", "#two", "#three"];
 
-  $('.draggable').mouseup(function() {
-    clearTimeout(pressTimer);
-  }).mousedown(function (event) {
-    pressTimer = window.setTimeout(function() {
-
-      event.currentTarget.style.zIndex = ++event.currentTarget.style.zIndex || 1;
-
-    }, 400);
-    return false;
+  elems.forEach(function (elem) {
+    var alsoResizeStr = elem + ' img, ' + elem + ' iframe, ' + elem + ' draghandle';
+    $(elem)
+      .rotatable({
+        start: function(event, ui) {
+          console.log('start', ui.angle);
+        },
+        rotate: function(event, ui) {
+        },
+        stop: function(event, ui) {
+          console.log('stop', ui.angle);
+        }
+    })
+    .resizable({
+      aspectRatio: true,
+      handles: "se",
+      containment: "parent",
+      alsoResize: alsoResizeStr,
+      minWidth: 150,
+      minHeight: 150,
+      start: function(event, ui) {
+        console.log('start', ui.size);
+      },
+      stop: function(event, ui) {
+        console.log('stop', ui.size);
+      }
+    })
+    .draggable({
+      start: function(event, ui) {
+        console.log('start', ui.position);
+      },
+      stop: function(event, ui) {
+        console.log('stop', ui.position);
+      }
+    });
   });
-
-
-  var $draggable = $('.draggable').draggabilly({
-
-    containment: '.moodboard'
-
-  });
-
-
-  $draggable.on('dragMove', listener);
 
 
 });
