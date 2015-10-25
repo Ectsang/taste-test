@@ -1,6 +1,6 @@
 $(function(){
 
-  var elems = ["#one", "#two", "#three"];
+  var elems = ["#one", "#two", "#three", "#four"];
 
   elems.forEach(function (elem) {
     var alsoResizeStr = elem + ' img, ' + elem + ' iframe, ' + elem + ' draghandle';
