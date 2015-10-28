@@ -30,6 +30,8 @@ $(function(){
       }
     })
     .draggable({
+      iframeFix: true,
+      stack: ".asset",
       start: function(event, ui) {
         console.log('start', ui.position);
       },

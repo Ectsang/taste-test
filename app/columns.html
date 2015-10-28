@@ -11,12 +11,12 @@
 
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="/bower_components/jquery-ui-rotatable/jquery.ui.rotatable.css">
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/columns.css">
 
     <!-- endbuild -->
 
@@ -28,38 +28,29 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <img src="images/moodboard.jpg" id="background">
 
-    <div id="navbar">
-      <ul>
-        <li><a class='navitem'>FOLDERS</a></li>
-        <li><a class='navitem'>SCRAPBOOK</a></li>
-      </ul>
+    <div class="container">
+        <div class="row">
+            <div id="scrapbook" class="col-md-6">
+                <h3>scrapbook</h3>
+                <div class="collection">
+                    <img id="s1" class="item" src="images/shoe1.jpeg" height="199px">
+                    <img id="s2" class="item" src="images/shoe2.jpeg" height="199px">
+                    <img id="s3" class="item" src="images/shoe3.jpeg" height="199px">
+                </div>
+            </div>
+            <div id="channel" class="col-md-6">
+                <h3>channel</h3>
+                <div class="collection">
+                    <img id="s4" class="item" src="images/shoe4.jpeg" height="199px">
+                    <img id="s5" class="item" src="images/shoe6.jpeg" height="199px">
+                    <img id="s6" class="item" src="images/shoe7.jpeg" height="199px">
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="moodboard">
 
-        <div id="one" class="asset" style="position:absolute; top:60px; left:300px">
-            <div class="draghandle" style="position:relative; width:100%; height:10px; background-color:#fff"></div>
-            <img src="//cdn-images.farfetch.com/11/15/41/77/11154177_5620201_240.jpg" />
-        </div>
-
-        <div id="two" class="asset" style="position:absolute; top:250px; left:240px">
-            <div class="draghandle" style="position:relative; top:0; left:0; width:100%; height:10px; background-color:#fff;"></div>
-            <iframe width="420" height="315" src="https://www.youtube.com/embed/DIEDJ9qbtvo" frameborder="0" allowfullscreen></iframe>
-        </div>
-
-        <div id="three" class="asset" style="position:absolute; top:100px; left:100px;">
-            <div class="draghandle" style="position:relative; width:100%; height:10px; background-color:#fff"></div>
-            <img src="//cdn-images.farfetch.com/11/17/98/31/11179831_5661371_300.jpg" />
-        </div>
-
-        <div id="four" class="asset" style="position:absolute; top:300px; left:400px;">
-            <div class="draghandle" style="position:relative; top:0; left:0; width:100%; height:10px; background-color:#fff;"></div>
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.239834090397!2d139.72153721493197!3d35.67109613813564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188c831d5e212b%3A0x82762320b1d8aede!2sAoyama!5e0!3m2!1sen!2shk!4v1445737549652" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-        </div>
-
-    </div>
 
 
 
@@ -67,7 +58,6 @@
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/jquery-ui/jquery-ui.js"></script>
-    <script src="/bower_components/jquery-ui-rotatable/jquery.ui.rotatable.min.js"></script>
     <script src="/bower_components/underscore/underscore.js"></script>
     <script src="/bower_components/backbone/backbone.js"></script>
     <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -90,7 +80,7 @@
     <!-- endbuild -->
 
     <!-- build:js scripts/main.js -->
-    <script src="scripts/main.js"></script>
+    <script src="scripts/columns.js"></script>
     <!-- endbuild -->
   </body>
 </html>

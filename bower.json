@@ -5,7 +5,10 @@
     "bootstrap-sass": "~3.3.5",
     "modernizr": "~2.8.1",
     "jquery-ui": "~1.11.4",
-    "jquery-ui-rotatable": "~1.0.1"
+    "jquery-ui-rotatable": "~1.0.1",
+    "underscore": "~1.8.3",
+    "backbone": "~1.2.3",
+    "bootstrap": "~3.3.5"
   },
   "overrides": {
     "bootstrap-sass": {
