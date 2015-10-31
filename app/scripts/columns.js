@@ -24,7 +24,7 @@ $(function(){
       var count = countAssets(source);
       console.log('start', source, count);
 
-      preConfigWidths(source, count - 1);
+      // preConfigWidths(source, count - 1);
       $(this).sortable('refreshPositions');
     },
     change: function(event, ui) {
@@ -109,16 +109,16 @@ function countAssets(id) {
   return assets.length;
 }
 
-function preConfigWidths(id, count) {
-  var fudge = 1;
-  var assets = $('#' + id + ' .collection img');
-  var collectionWidth = $('#' + id + ' .wrapper').width();
-  var normalizedWidth = collectionWidth / count - fudge;
-  assets.each(function (key, value) {
-    value.width = normalizedWidth;
-    $(value).animate({ width: normalizedWidth }, 80);
-  });
-}
+// function preConfigWidths(id, count) {
+//   var fudge = 1;
+//   var assets = $('#' + id + ' .collection img');
+//   var collectionWidth = $('#' + id + ' .wrapper').width();
+//   var normalizedWidth = collectionWidth / count - fudge;
+//   assets.each(function (key, value) {
+//     value.width = normalizedWidth;
+//     $(value).animate({ width: normalizedWidth }, 80);
+//   });
+// }
 
 function hintOn(id) {
   $(id).addClass('hint');
