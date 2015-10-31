@@ -1,8 +1,8 @@
 $(function(){
 
-  $(".connectedSortable").sortable({
+  $(".collection").sortable({
     appendTo: '#bridge',
-    connectWith: ".connectedSortable",
+    connectWith: ".collection",
     cursor: "move",
     distance: 40,
     forcePlaceholderSize: true,
@@ -15,29 +15,40 @@ $(function(){
     tolerance: "intersect",
     zIndex: 9999,
 
-    change: function(event, ui) {
-      $(ui.placeholder).hide().show(80);
-      // refreshWidths(listOfCollections);
-    },
-    over: function(event, ui) {
 
-    },
-    out: function(event, ui) {
-      // var source = ui.sender.closest('.top-level').attr('id');
-      // var target = $(this).closest('.top-level').attr('id');
-    },
-    receive: function(event, ui) {
-
-    },
     start: function (event, ui) {
       // ui.item.toggleClass("highlight");
       $(ui.placeholder).hide(80);
     },
+    out: function(event, ui) {
+      // console.log('out');
+      dragging = !dragging;
+      // console.log('out: dragging =', dragging);
+    },
+    change: function(event, ui) {
+      $(ui.placeholder).hide().show(80);
+    },
+    over: function(event, ui) {
+      // console.log('over');
+      var source = $(this).closest('.top-level').attr('id');
+      var target = $(this).data()['ui-sortable'].element.closest('.top-level').attr('id');
+      if (dragging) {
+        reduceListSize(target);
+      }
+    },
+    receive: function(event, ui) {
+      // console.log('receive');
+      dragging = !dragging;
+      // console.log('receive: dragging =', dragging);
+    },
     stop: function (event, ui) {
       // ui.item.toggleClass("highlight");
+      dragging = false;
+      console.log('stop: dragging =', dragging);
+      refreshWidths(listOfCollections);
     },
     update: function(event, ui) {
-      refreshWidths(listOfCollections);
+      // refreshWidths(listOfCollections);
     }
   }).disableSelection();
 
@@ -45,8 +56,10 @@ $(function(){
 
 });
 
-var listOfCollections = ['scrapbook', 'channel'];
 
+
+var listOfCollections = ['scrapbook', 'channel'];
+var dragging = false;
 
 
 /**
@@ -77,9 +90,28 @@ function normalizeWidths(id) {
 
   // 3. set all image widths to normalized
   assets.each(function (key, value) {
-    value.width = normalizedWidth;
-    // debugger;
     $(value).animate({ width: normalizedWidth }, 80);
   });
+}
+
+
+function reduceListSize(id) {
+  if (dragging) {
+    // console.log('REDUCE LIST SIZE', id);
+
+    var factor = 2; // pretend dealing w/ more elements to fit on one line
+
+    // 1. find all images
+    var assets = $('#' + id + ' .collection img');
+
+    // 2. find width of collection
+    var collectionWidth = $('#' + id + ' .wrapper').width();
+    var normalizedWidth = collectionWidth / (assets.length + factor);
+
+    // 3. set all image widths to normalized
+    assets.each(function (key, value) {
+      $(value).animate({ width: normalizedWidth }, 80);
+    });
+  }
 }
 

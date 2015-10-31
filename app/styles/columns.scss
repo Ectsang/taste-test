@@ -1,3 +1,9 @@
+h3 {
+  color: white;
+  text-shadow: 1px 0px 2px rgba(150, 150, 150, 1);
+  margin-bottom:30px;
+}
+
 #bridge {
   width:100%;
   text-align:center;
@@ -21,35 +27,30 @@
   left:50%;
 
 }
+
 .collection {
   list-style-type: none;
   width:100%;
   min-height:100px;
   background-color: rgba(195, 203, 212, 0.3);
+  margin: 0;
   padding:0;
   overflow:hidden;
-}
-.collection li {
-  float:left;
-  margin: 0;
-  padding: 0;
-}
-
-
-.connectedSortable {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
   float: left;
-}
-.connectedSortable li {
 
-}
-.connectedSortable li img {
-  border: 1px solid #ddd;
-  -webkit-box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.4);
-  -moz-box-shadow:    3px 3px 3px 3px rgba(0,0,0,0.4);
-  box-shadow:         3px 3px 3px 3px rgba(0,0,0,0.4);
+  li {
+    float:left;
+    margin: 0;
+    padding: 0;
+    background-color:rgba(0,0,0,0.8);
+
+    img {
+      border: 1px solid #ddd;
+      -webkit-box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.4);
+      -moz-box-shadow:    3px 3px 3px 3px rgba(0,0,0,0.4);
+      box-shadow:         3px 3px 3px 3px rgba(0,0,0,0.4);
+    }
+  }
 }
 
 
