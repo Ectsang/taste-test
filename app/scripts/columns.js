@@ -1,91 +1,81 @@
 $(function(){
 
-  $(".item").draggable().selectable();
+  $(".connectedSortable").sortable({
 
-  $("#scrapbook").droppable({
-    drop: function(event, ui) {
+    axis: 'x',
+    connectWith: ".connectedSortable",
 
-      var asset = ui.draggable[0].id;
-      var origin = $('#'+asset).parent().parent().attr('id');
-      var dest = event.target.id;
+    over: function(event, ui) {
+      // console.log('over', event, ui);
+    },
+    receive: function(event, ui) {
+      // console.log('receive', event, ui);
+      // console.log($(ui.item).index());
+    },
+    update: function(event, ui) {
+        var ul1 = $("#scrapbook li");
+        var ul2 = $("#channel li");
 
-      migrateAsset(asset, dest);
+        checkul1(ul1, ul2);
+        checkul2(ul1, ul2);
 
-      refreshCollection(origin);
-      refreshCollection(dest);
+        refreshWidths(listOfCollections);
     }
+  }).disableSelection();
+
+
+  listOfCollections.map(function(coll) {
+    normalizeWidths(coll);
   });
-
-  $("#channel").droppable({
-    drop: function(event, ui) {
-
-      var asset = ui.draggable[0].id;
-      var origin = $('#'+asset).parent().parent().attr('id');
-      var dest = event.target.id;
-
-      migrateAsset(asset, dest);
-
-      refreshCollection(origin);
-      refreshCollection(dest);
-    }
-  });
-
-
-  /**
-   * Migrates one asset (e.g. image) from one container (e.g. div) to another
-   * @param asset - id of asset (e.g. image) being moved
-   * @param to - id of destination droppable collection
-   */
-  function migrateAsset(asset, to) {
-
-    // TODO:handle multiple selects
-    $('#' + asset).detach().appendTo('#' + to + ' .collection');
-  }
-
-  /**
-   * Redistribute width and height of images within a collection
-   * @param collectionId - id of parent div of the collection
-   */
-  function refreshCollection(id) {
-    var fudge = 3;
-
-    console.log(id, 'has', sizeOf(id), 'items');
-
-    var collectionHeight = $('#' + id + ' .collection').height();
-    var collectionWidth = $('#' + id + ' .collection').width();
-    var expectedWidthPerAsset = collectionWidth / sizeOf(id);
-
-    var assets = $('#' + id + ' .collection img');
-
-    var assetIds = [], widthRatios = [];
-    assets.each(function (key, value) {
-      var aid = $(value).attr('id'); assetIds.push(aid);
-      var assetWidth = $('#'+aid).width();
-      var assetHeight = $('#'+aid).height();
-      var widthInTermsOfHeight = assetWidth / assetHeight;
-
-      // 1. make the height of all images arbitrarily small (same height)
-      $('#'+aid).height(collectionHeight);
-      // 2. calculate their widths and assign a ratio out of entire collection width
-      widthRatios.push(assetHeight * widthInTermsOfHeight / collectionWidth);
-    });
-
-    // 3. unset the height, set to new widths
-    assetIds.forEach(function (value, key) {
-      // set new widths to each element
-      $('#' + value).width(widthRatios[key] * collectionWidth);
-
-      $('#' + value).detach().appendTo('#' + id + ' .collection');
-    });
-
-  }
-
-  /**
-   * Returns size of a collection
-   * @param id - id of parent div of the collection
-   */
-  function sizeOf(id) {
-    return $('#' + id + ' .collection img').length;
-  }
 
 });
+
+var listOfCollections = ['scrapbook', 'channel'];
+
+function checkul1(ul1, ul2) {
+    if (ul1.length > 5) {
+        ul1.last().prependTo(ul2.parent());
+    }
+}
+
+function checkul2(ul1, ul2) {
+    if (ul2.length > 5) {
+        if (ul1.length < 5) {
+            ul2.first().appendTo(ul1.parent());
+        }
+    }
+}
+
+
+
+/**
+ * Redistribute width and height of all collections in list
+ * @param list - list of ids parent div of the collection
+ */
+function refreshWidths(list) {
+  list.map(function(coll) {
+    normalizeWidths(coll);
+  });
+}
+
+/**
+ * Redistribute width and height of images within a collection
+ * @param collectionId - id of parent div of the collection
+ */
+function normalizeWidths(id) {
+  var fudge = 3;
+
+  // 1. find all images
+  var assets = $('#' + id + ' .collection img');
+  // console.log(id, 'has', assets.length, 'assets');
+
+  // 2. find width of collection
+  var collectionWidth = $('#' + id + ' .wrapper').width();
+  var normalizedWidth = collectionWidth / assets.length - fudge;
+  // console.log('normalizedWidth', normalizedWidth);
+
+  // 3. set all image widths to normalized
+  assets.each(function (key, value) {
+    value.width = normalizedWidth;
+  })
+}

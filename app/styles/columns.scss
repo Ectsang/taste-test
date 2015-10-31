@@ -2,19 +2,40 @@
 #scrapbook {
   background: #777;
   height:100%;
+  width:50%;
   position:fixed;
   top:0;
   left:0;
+
 }
 #channel {
   background: #999;
   height:100%;
+  width:50%;
   position:fixed;
   top:0;
   left:50%;
+
+}
+.wrapper {
+  border:1px solid black;
 }
 .collection {
   width:100%;
-  border:1px solid #ddd;
-  height:200px;
 }
+
+
+.connectedSortable {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+.connectedSortable li {
+  margin: 0;
+  padding: 0;
+  display:inline;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {}
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {}
