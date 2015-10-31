@@ -9,7 +9,7 @@ $(function(){
     helper: "clone",
     items: "> li",
     opacity: 0.8,
-    placeholder: 'placeholder',
+    // placeholder: 'placeholder',
     revert: 100,
     scroll: false,
     tolerance: "intersect",
@@ -22,7 +22,7 @@ $(function(){
     },
     out: function(event, ui) {
       // console.log('out');
-      dragging = !dragging;
+      // dragging = !dragging;
       // console.log('out: dragging =', dragging);
     },
     change: function(event, ui) {
@@ -30,25 +30,25 @@ $(function(){
     },
     over: function(event, ui) {
       // console.log('over');
-      var source = $(this).closest('.top-level').attr('id');
-      var target = $(this).data()['ui-sortable'].element.closest('.top-level').attr('id');
-      if (dragging) {
-        reduceListSize(target);
-      }
+      // var source = $(this).closest('.top-level').attr('id');
+      // var target = $(this).data()['ui-sortable'].element.closest('.top-level').attr('id');
+      // if (dragging) {
+      //   reduceListSize(target);
+      // }
     },
     receive: function(event, ui) {
       // console.log('receive');
-      dragging = !dragging;
+      // dragging = !dragging;
       // console.log('receive: dragging =', dragging);
     },
     stop: function (event, ui) {
       // ui.item.toggleClass("highlight");
-      dragging = false;
-      console.log('stop: dragging =', dragging);
-      refreshWidths(listOfCollections);
+      // dragging = false;
+      // console.log('stop: dragging =', dragging);
+      // refreshWidths(listOfCollections);
     },
     update: function(event, ui) {
-      // refreshWidths(listOfCollections);
+      refreshWidths(listOfCollections);
     }
   }).disableSelection();
 
