@@ -1,50 +1,51 @@
 $(function(){
 
   $(".connectedSortable").sortable({
-
-    axis: 'x',
+    appendTo: '#bridge',
     connectWith: ".connectedSortable",
+    cursor: "move",
+    distance: 40,
+    forcePlaceholderSize: true,
+    helper: "clone",
+    items: "> li",
+    opacity: 0.8,
+    placeholder: 'placeholder',
+    revert: 100,
+    scroll: false,
+    tolerance: "intersect",
+    zIndex: 9999,
 
+    change: function(event, ui) {
+      $(ui.placeholder).hide().show(80);
+      // refreshWidths(listOfCollections);
+    },
     over: function(event, ui) {
-      // console.log('over', event, ui);
+
+    },
+    out: function(event, ui) {
+      // var source = ui.sender.closest('.top-level').attr('id');
+      // var target = $(this).closest('.top-level').attr('id');
     },
     receive: function(event, ui) {
-      // console.log('receive', event, ui);
-      // console.log($(ui.item).index());
+
+    },
+    start: function (event, ui) {
+      // ui.item.toggleClass("highlight");
+      $(ui.placeholder).hide(80);
+    },
+    stop: function (event, ui) {
+      // ui.item.toggleClass("highlight");
     },
     update: function(event, ui) {
-        var ul1 = $("#scrapbook li");
-        var ul2 = $("#channel li");
-
-        checkul1(ul1, ul2);
-        checkul2(ul1, ul2);
-
-        refreshWidths(listOfCollections);
+      refreshWidths(listOfCollections);
     }
   }).disableSelection();
 
-
-  listOfCollections.map(function(coll) {
-    normalizeWidths(coll);
-  });
+  refreshWidths(listOfCollections);
 
 });
 
 var listOfCollections = ['scrapbook', 'channel'];
-
-function checkul1(ul1, ul2) {
-    if (ul1.length > 5) {
-        ul1.last().prependTo(ul2.parent());
-    }
-}
-
-function checkul2(ul1, ul2) {
-    if (ul2.length > 5) {
-        if (ul1.length < 5) {
-            ul2.first().appendTo(ul1.parent());
-        }
-    }
-}
 
 
 
@@ -63,7 +64,7 @@ function refreshWidths(list) {
  * @param collectionId - id of parent div of the collection
  */
 function normalizeWidths(id) {
-  var fudge = 3;
+  var fudge = 1; // for border width
 
   // 1. find all images
   var assets = $('#' + id + ' .collection img');
@@ -77,5 +78,8 @@ function normalizeWidths(id) {
   // 3. set all image widths to normalized
   assets.each(function (key, value) {
     value.width = normalizedWidth;
-  })
+    // debugger;
+    $(value).animate({ width: normalizedWidth }, 80);
+  });
 }
+

@@ -1,3 +1,7 @@
+#bridge {
+  width:100%;
+  text-align:center;
+}
 
 #scrapbook {
   background: #777;
@@ -17,11 +21,18 @@
   left:50%;
 
 }
-.wrapper {
-  border:1px solid black;
-}
 .collection {
+  list-style-type: none;
   width:100%;
+  min-height:100px;
+  background-color: rgba(195, 203, 212, 0.3);
+  padding:0;
+  overflow:hidden;
+}
+.collection li {
+  float:left;
+  margin: 0;
+  padding: 0;
 }
 
 
@@ -32,10 +43,16 @@
   float: left;
 }
 .connectedSortable li {
-  margin: 0;
-  padding: 0;
-  display:inline;
+
+}
+.connectedSortable li img {
+  border: 1px solid #ddd;
+  -webkit-box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.4);
+  -moz-box-shadow:    3px 3px 3px 3px rgba(0,0,0,0.4);
+  box-shadow:         3px 3px 3px 3px rgba(0,0,0,0.4);
 }
 
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {}
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {}
+
+.placeholder {
+  background-color: rgba(0,0,0,0.8);
+}
