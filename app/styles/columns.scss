@@ -1,38 +1,49 @@
+h4 {
+  color: white;
+  margin: 60px 0 20px 0;
+}
+
 #bridge {
   width:100%;
   text-align:center;
 }
 
-#scrapbook {
+#scrapbooks {
   background: #777;
   height:100%;
-  width:50%;
-  position:fixed;
-  top:0;
-  left:0;
-
+  padding-bottom:100px;
+  // width:50%;
+  // position:fixed;
+  // top:0;
+  // left:0;
 }
-#channel {
+#channels {
   background: #999;
   height:100%;
-  width:50%;
-  position:fixed;
-  top:0;
-  left:50%;
-
+  padding-bottom:100px;
+  // width:50%;
+  // position:fixed;
+  // top:0;
+  // left:50%;
 }
+#folders {
+  background: #bbb;
+  height:100%;
+  padding-bottom:100px;
+}
+
 .collection {
   list-style-type: none;
   width:100%;
   min-height:100px;
   background-color: rgba(195, 203, 212, 0.3);
   padding:0;
-  overflow:hidden;
 }
 .collection li {
   float:left;
   margin: 0;
   padding: 0;
+  display:inline;
 }
 
 
@@ -40,7 +51,7 @@
   list-style-type: none;
   margin: 0;
   padding: 0;
-  float: left;
+  /*float: left;*/
 }
 .connectedSortable li {
 
@@ -55,4 +66,9 @@
 
 .placeholder {
   background-color: rgba(0,0,0,0.8);
+  /* border:1px solid yellow;*/
+}
+
+.hint {
+  border:3px solid green;
 }

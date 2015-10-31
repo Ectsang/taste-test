@@ -1,11 +1,11 @@
 $(function(){
 
-  $(".connectedSortable").sortable({
+  $(".collection").sortable({
     appendTo: '#bridge',
-    connectWith: ".connectedSortable",
+    connectWith: ".collection",
     cursor: "move",
-    distance: 40,
-    forcePlaceholderSize: true,
+    distance: 30,
+    // forcePlaceholderSize: true,
     helper: "clone",
     items: "> li",
     opacity: 0.8,
@@ -15,26 +15,36 @@ $(function(){
     tolerance: "intersect",
     zIndex: 9999,
 
-    change: function(event, ui) {
-      $(ui.placeholder).hide().show(80);
-      // refreshWidths(listOfCollections);
-    },
-    over: function(event, ui) {
+    start: function (event, ui) {
+      ui.item.toggleClass("placeholder");
+      // $(ui.placeholder).hide(80);
+      // console.log('start', $(ui.item));
+      var source = $(this).closest('.top-level').attr('id');
+      var count = countAssets(source);
+      console.log('start', source, count);
 
+      preConfigWidths(source, count - 1);
+      $(this).sortable('refreshPositions');
+    },
+    change: function(event, ui) {
+      // $(ui.placeholder).hide().show(80);
+      // refreshWidths(listOfCollections);
+      var target = $(this).closest('.top-level').attr('id');
+      console.log('change', target);
     },
     out: function(event, ui) {
       // var source = ui.sender.closest('.top-level').attr('id');
       // var target = $(this).closest('.top-level').attr('id');
+
+    },
+    over: function(event, ui) {
+
     },
     receive: function(event, ui) {
 
     },
-    start: function (event, ui) {
-      // ui.item.toggleClass("highlight");
-      $(ui.placeholder).hide(80);
-    },
     stop: function (event, ui) {
-      // ui.item.toggleClass("highlight");
+      ui.item.toggleClass("placeholder");
     },
     update: function(event, ui) {
       refreshWidths(listOfCollections);
@@ -45,7 +55,12 @@ $(function(){
 
 });
 
-var listOfCollections = ['scrapbook', 'channel'];
+
+
+var listOfCollections = [
+  'scrapbook1', 'scrapbook2',
+  'channel1', 'channel2',
+  'folders'];
 
 
 
@@ -83,3 +98,23 @@ function normalizeWidths(id) {
   });
 }
 
+
+function countAssets(id) {
+  var assets = $('#' + id + ' .collection img');
+  return assets.length;
+}
+
+function preConfigWidths(id, count) {
+  var fudge = 1;
+  var assets = $('#' + id + ' .collection img');
+  var collectionWidth = $('#' + id + ' .wrapper').width();
+  var normalizedWidth = collectionWidth / count - fudge;
+  assets.each(function (key, value) {
+    value.width = normalizedWidth;
+    $(value).animate({ width: normalizedWidth }, 80);
+  });
+}
+
+function hintOn(id) {
+  $(id).addClass('hint');
+}
