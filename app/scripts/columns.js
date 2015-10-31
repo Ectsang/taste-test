@@ -79,26 +79,60 @@ function refreshWidths(list) {
  * @param collectionId - id of parent div of the collection
  */
 function normalizeWidths(id) {
-  var fudge = 1; // for border width
 
-  // 1. find all images
-  var assets = $('#' + id + ' .collection img');
-  // console.log(id, 'has', assets.length, 'assets');
+  var imageWidths = [], imageHeights = [],
+      unifiedWidths = [], widthRatios = [],
+      fudge = 0; // for border width
 
-  // 2. find width of collection
+  // 1. find width of collection
   var collectionWidth = $('#' + id + ' .wrapper').width();
-  var normalizedWidth = collectionWidth / assets.length - fudge;
-  // console.log('normalizedWidth', normalizedWidth);
 
-  // 3. set all image widths to normalized
-  assets.each(function (key, value) {
-    value.width = normalizedWidth;
-    // debugger;
-    $(value).animate({ width: normalizedWidth }, 80);
-  });
+  // 2. find all images and get unifiedWidths
+  var assets = $('#' + id + ' .collection img');
+  for (var i = 0, len = assets.length; i < len; i++) {
+    var value = assets[i];
+    // console.log('width', $(value).width(), 'height', $(value).height());
+    var w = $(value).width(), h = $(value).height();
+    imageWidths.push(w); imageHeights.push(h);
+console.log(i, w, h);
+
+    unifiedWidths.push( getWidthOnUnifiedHeight(w, h) );
+  };
+
+  // 3. sum unifiedWidths into denominator, get relative widthRatios
+  var denom = unifiedWidths.reduce(function(a, b) { return a + b; }, 0);
+  for (var i = 0, len = assets.length; i < len; i++) {
+
+    widthRatios.push(unifiedWidths[i] / denom);
+  }
+
+  // 4. set each image widths according to (width ratio x collectionWidth)
+  for (var i = 0, len = assets.length; i < len; i++) {
+    var trueWidth = widthRatios[i] * collectionWidth - fudge;
+    $(assets[i]).animate({ width: trueWidth }, 30);
+  }
+
+  // console.log('assets', assets);
+  // console.log('unifiedWidths', unifiedWidths);
+  // console.log('widthRatios', widthRatios);
+// debugger;
+
+}
+
+/**
+ * Returns the widths with unified heights
+ */
+function getWidthOnUnifiedHeight(w1, h1) {
+  // if made same height (10px), keeping aspect ratio, what's the width?
+  var w2 = 10 * w1 / h1;
+  return w2; // return { w: trueWidth, h: trueHeight };
 }
 
 
+/**
+ * Returns number of assets in the collection
+ * @param id - id of parent of collection
+ */
 function countAssets(id) {
   var assets = $('#' + id + ' .collection img');
   return assets.length;
