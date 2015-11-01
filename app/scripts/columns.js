@@ -60,7 +60,9 @@ $(function(){
 var listOfCollections = [
   'scrapbook1', 'scrapbook2',
   'channel1', 'channel2',
-  'folders'];
+  'folders'
+];
+var SMALL_HEIGHT = 10;
 
 
 
@@ -82,7 +84,7 @@ function normalizeWidths(id) {
 
   var imageWidths = [], imageHeights = [],
       unifiedWidths = [], widthRatios = [],
-      fudge = 0; // for border width
+      fudge = 2; // for border width
 
   // 1. find width of collection
   var collectionWidth = $('#' + id + ' .wrapper').width();
@@ -94,6 +96,7 @@ function normalizeWidths(id) {
     // console.log('width', $(value).width(), 'height', $(value).height());
     var w = $(value).width(), h = $(value).height();
     imageWidths.push(w); imageHeights.push(h);
+
 console.log(i, w, h);
 
     unifiedWidths.push( getWidthOnUnifiedHeight(w, h) );
@@ -106,25 +109,32 @@ console.log(i, w, h);
     widthRatios.push(unifiedWidths[i] / denom);
   }
 
-  // 4. set each image widths according to (width ratio x collectionWidth)
+  // 4. i) set each image widths according to (width ratio x collectionWidth),
+  //    ii) force height to be same as first
+  var trueHeight;
   for (var i = 0, len = assets.length; i < len; i++) {
     var trueWidth = widthRatios[i] * collectionWidth - fudge;
-    $(assets[i]).animate({ width: trueWidth }, 30);
-  }
 
-  // console.log('assets', assets);
-  // console.log('unifiedWidths', unifiedWidths);
-  // console.log('widthRatios', widthRatios);
-// debugger;
+    // We define trueHeight once to keep all images on same row exactly same height
+    if (!trueHeight) {
+      // trueWidth = w2 = 10 * (w1 / h1) = 10 * Aspect Ratio
+      // w2 * (1 / Aspect Ratio) = w2 * (h1/w1) = h2 = trueHeight
+      trueHeight = trueWidth * (imageHeights[i] / imageWidths[i]);
+    }
+
+    $(assets[i]).animate({ width: trueWidth, height: trueHeight }, 30);
+  }
 
 }
 
 /**
  * Returns the widths with unified heights
+ * @param w1 - image width
+ * @param h1 - image height
  */
 function getWidthOnUnifiedHeight(w1, h1) {
   // if made same height (10px), keeping aspect ratio, what's the width?
-  var w2 = 10 * w1 / h1;
+  var w2 = SMALL_HEIGHT * w1 / h1;
   return w2; // return { w: trueWidth, h: trueHeight };
 }
 

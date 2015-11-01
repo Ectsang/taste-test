@@ -12,19 +12,11 @@ h4 {
   background: #777;
   height:100%;
   padding-bottom:100px;
-  // width:50%;
-  // position:fixed;
-  // top:0;
-  // left:0;
 }
 #channels {
   background: #999;
   height:100%;
   padding-bottom:100px;
-  // width:50%;
-  // position:fixed;
-  // top:0;
-  // left:50%;
 }
 #folders {
   background: #bbb;
@@ -37,26 +29,16 @@ h4 {
   width:100%;
   min-height:100px;
   background-color: rgba(195, 203, 212, 0.3);
+  margin:0;
   padding:0;
 }
 .collection li {
   float:left;
-  margin: 0;
+  margin: 0 0 5px 0;
   padding: 0;
-  display:inline;
-}
-
-
-.connectedSortable {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  /*float: left;*/
-}
-.connectedSortable li {
 
 }
-.connectedSortable li img {
+.collection li img {
   border: 1px solid #ddd;
   -webkit-box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.4);
   -moz-box-shadow:    3px 3px 3px 3px rgba(0,0,0,0.4);
@@ -70,5 +52,5 @@ h4 {
 }
 
 .hint {
-  border:3px solid green;
+  border:3px solid #c1ca8f;
 }
