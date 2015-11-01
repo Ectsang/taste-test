@@ -9,12 +9,11 @@ $(function(){
     helper: "clone",
     items: "> li",
     opacity: 0.8,
-    // placeholder: 'placeholder',
+    placeholder: 'placeholder',
     revert: 100,
     scroll: false,
     tolerance: "intersect",
     zIndex: 9999,
-
 
     start: function (event, ui) {
       ui.item.toggleClass("placeholder");
@@ -46,7 +45,6 @@ $(function(){
     },
     stop: function (event, ui) {
       ui.item.toggleClass("placeholder");
-
     },
     update: function(event, ui) {
       refreshWidths(listOfCollections);
@@ -54,8 +52,6 @@ $(function(){
   }).disableSelection();
 
 });
-
-
 
 
 /**
@@ -114,7 +110,7 @@ function normalizeWidths(id) {
       trueHeight = trueWidth * (imageHeights[i] / imageWidths[i]);
     }
 
-    $(assets[i]).animate({ width: trueWidth, height: trueHeight }, 60);
+    $(assets[i]).animate({ width: trueWidth, height: trueHeight }, 30);
   }
 
 }
@@ -155,16 +151,67 @@ function hintOn(id) {
   $(id).addClass('hint');
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////
 
 var listOfCollections = [
   'scrapbook1', 'scrapbook2',
   'channel1', 'channel2',
-  'folder1', 'folder2', 'folder3'
+  'folders'
 ];
 
-var SMALL_HEIGHT = 100;
+var SMALL_HEIGHT = 10;
 
 refreshWidths(listOfCollections);
 
+$(function(){
+
+  var elems = ["#one", "#two", "#three", "#four"];
+
+  elems.forEach(function (elem) {
+
+    if ($(elem)) {
+
+      var alsoResizeStr = elem + ' img, ' + elem + ' iframe, ' + elem + ' draghandle';
+      $(elem)
+        .rotatable({
+          start: function(event, ui) {
+            console.log('start', ui.angle);
+          },
+          rotate: function(event, ui) {
+            console.log('ui', ui.angle);
+          },
+          stop: function(event, ui) {
+            console.log('stop', ui.angle);
+          }
+      })
+      .resizable({
+        aspectRatio: true,
+        handles: "se",
+        containment: "parent",
+        alsoResize: alsoResizeStr,
+        minWidth: 150,
+        minHeight: 150,
+        start: function(event, ui) {
+          console.log('start', ui.size);
+        },
+        stop: function(event, ui) {
+          console.log('stop', ui.size);
+        }
+      })
+      .draggable({
+        iframeFix: true,
+        stack: ".asset",
+        start: function(event, ui) {
+          console.log('start', ui.position);
+        },
+        stop: function(event, ui) {
+          console.log('stop', ui.position);
+        }
+      });
+
+    }
+
+  });
+
+
+});

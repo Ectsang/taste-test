@@ -1,6 +1,9 @@
 // generated on 2015-10-23 using generator-gulp-webapp 1.0.3
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
+import concat from 'gulp-concat';
+import uglify from 'gulp-uglify';
+import rename from 'gulp-rename';
 import browserSync from 'browser-sync';
 import del from 'del';
 import {stream as wiredep} from 'wiredep';
@@ -23,23 +26,47 @@ gulp.task('styles', () => {
     .pipe(reload({stream: true}));
 });
 
-function lint(files, options) {
-  return () => {
-    return gulp.src(files)
-      .pipe(reload({stream: true, once: true}))
-      .pipe($.eslint(options))
-      .pipe($.eslint.format())
-      .pipe($.if(!browserSync.active, $.eslint.failAfterError()));
-  };
-}
-const testLintOptions = {
-  env: {
-    mocha: true
-  }
-};
+gulp.task('concatScripts', () => {
+  return gulp.src([
+    'app/scripts/*.js'
+    ])
+    .pipe(concat('app.js'))
+    .pipe(gulp.dest('app/scripts'));
+});
 
-gulp.task('lint', lint('app/scripts/**/*.js'));
-gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
+gulp.task('minifyScripts', () => {
+  return gulp.src([
+    'app/scripts/app.js'
+    ])
+    .pipe(uglify())
+    .pipe(gulp.dest('dist/scripts'));
+});
+
+gulp.task('clean:local', function () {
+  return del([
+    'app/scripts/app.js',
+    // here we use a globbing pattern to match everything inside the dist folder
+    'dist/**/*'
+  ]);
+});
+
+// function lint(files, options) {
+//   return () => {
+//     return gulp.src(files)
+//       .pipe(reload({stream: true, once: true}))
+//       .pipe($.eslint(options))
+//       .pipe($.eslint.format())
+//       .pipe($.if(!browserSync.active, $.eslint.failAfterError()));
+//   };
+// }
+// const testLintOptions = {
+//   env: {
+//     mocha: true
+//   }
+// };
+
+// gulp.task('lint', lint('app/scripts/**/*.js'));
+// gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 
 gulp.task('html', ['styles'], () => {
   const assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
@@ -89,7 +116,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['styles', 'fonts'], () => {
+gulp.task('serve', ['styles', 'fonts', 'clean:local', 'concatScripts'], () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -113,7 +140,7 @@ gulp.task('serve', ['styles', 'fonts'], () => {
   gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
 
-gulp.task('serve:dist', () => {
+gulp.task('serve:dist', ['concatScripts', 'minifyScripts'], () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -156,8 +183,8 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-// gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
-gulp.task('build', ['html', 'images', 'fonts', 'extras'], () => {
+
+gulp.task('build', ['html', 'concatScripts', 'minifyScripts', 'images', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
