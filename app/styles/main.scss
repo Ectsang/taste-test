@@ -2,6 +2,7 @@ $icon-font-path: '../fonts/';
 
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "columns.scss";
 // endbower
 
 .browserupgrade {
@@ -82,9 +83,9 @@ a.navitem, a.navitem:hover {
 }
 
 
-
-
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
 
 }
+
+
