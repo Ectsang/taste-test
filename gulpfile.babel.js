@@ -4,8 +4,9 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 import concat from 'gulp-concat';
 import uglify from 'gulp-uglify';
 import rename from 'gulp-rename';
-import browserSync from 'browser-sync';
 import del from 'del';
+import imageop from 'gulp-image-optimization';
+import browserSync from 'browser-sync';
 import {stream as wiredep} from 'wiredep';
 
 const $ = gulpLoadPlugins();
@@ -84,6 +85,7 @@ gulp.task('html', ['styles'], () => {
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
     .pipe($.if($.if.isFile, $.cache($.imagemin({
+      optimizationLevel: 6,
       progressive: true,
       interlaced: true,
       // don't remove IDs from SVGs, they are often used
@@ -95,6 +97,18 @@ gulp.task('images', () => {
       this.end();
     })))
     .pipe(gulp.dest('dist/images'));
+});
+
+gulp.task('imageOptimization', (cb) => {
+    gulp.src(['app/images/**/*'])
+    .pipe(imageop({
+        optimizationLevel: 5,
+        progressive: true,
+        interlaced: true
+    }))
+    .pipe(gulp.dest('dist/images'))
+    .on('end', cb)
+    .on('error', cb);
 });
 
 gulp.task('fonts', () => {
@@ -140,7 +154,7 @@ gulp.task('serve', ['styles', 'fonts', 'clean:local', 'concatScripts'], () => {
   gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
 
-gulp.task('serve:dist', ['concatScripts', 'minifyScripts'], () => {
+gulp.task('serve:dist', ['build', 'concatScripts', 'minifyScripts'], () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -183,7 +197,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['html', 'concatScripts', 'minifyScripts', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['html', 'concatScripts', 'minifyScripts', 'imageOptimization', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
