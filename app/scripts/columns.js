@@ -16,21 +16,24 @@ $(function(){
     zIndex: 9999,
 
     start: function (event, ui) {
-      ui.item.toggleClass("placeholder");
-      // $(ui.placeholder).hide(80);
-      // console.log('start', $(ui.item));
-      var source = $(this).closest('.top-level').attr('id');
-      var count = countAssets(source);
-      console.log('start', source, count);
-
+      // ui.item.toggleClass("placeholder");
+      // $(ui.placeholder).hide(80);// console.log('start', $(ui.item));
+      // var source = $(this).closest('.top-level').attr('id');
+      // var count = countAssets(source);
+      // console.log('start', source, count);
       // preConfigWidths(source, count - 1);
-      $(this).sortable('refreshPositions');
+      // $(this).sortable('refreshPositions');
     },
     change: function(event, ui) {
       // $(ui.placeholder).hide().show(80);
       // refreshWidths(listOfCollections);
       var target = $(this).closest('.top-level').attr('id');
-      console.log('change', target);
+
+      console.log('change', target, 'dragging', dragging);
+      if (target !== dragging) {
+        dragging = target;
+        hintOn(target);
+      }
     },
     out: function(event, ui) {
       // var source = ui.sender.closest('.top-level').attr('id');
@@ -41,10 +44,11 @@ $(function(){
 
     },
     receive: function(event, ui) {
-
+      $('.hint').detach();
     },
     stop: function (event, ui) {
-      ui.item.toggleClass("placeholder");
+      // ui.item.toggleClass("placeholder");
+      dragging = false;
     },
     update: function(event, ui) {
       refreshWidths(listOfCollections);
@@ -85,7 +89,7 @@ function normalizeWidths(id) {
     var w = $(value).width(), h = $(value).height();
     imageWidths.push(w); imageHeights.push(h);
 
-    console.log(id, i, w, h);
+    // console.log(id, i, w, h);
 
     unifiedWidths.push( getWidthOnUnifiedHeight(w, h) );
   };
@@ -147,8 +151,19 @@ function countAssets(id) {
 //   });
 // }
 
+/**
+ * Draws a same sized translucent div on top of hovering zone
+ * @param id - id of zone
+ */
 function hintOn(id) {
-  $(id).addClass('hint');
+  var selector = '#' + id + ' .collection li';
+  var w = $(selector).closest('ul').width();
+  var h = $(selector).closest('ul').height();
+  var pos = $(selector).closest('ul').position();
+  var hint = '<div id="theHint" class="hint" style="top:'+pos.top+';left:'+pos.left+';width:'+w+'px;height:'+h+'px">&nbsp;</div>';
+  $(selector).closest('ul').prepend(hint);
+console.log('hint', hint);
+  dragging = id;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -160,5 +175,7 @@ var listOfCollections = [
 ];
 
 var SMALL_HEIGHT = 100;
+
+var dragging = false;
 
 refreshWidths(listOfCollections);
