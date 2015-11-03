@@ -167,6 +167,8 @@ function hintOn(id) {
       $(value).detach();
     });
   }
+
+  // set hint the width and height of the ul list
   var selector = '#' + id + ' .collection li';
   var w = $(selector).closest('ul').width();
   var h = $(selector).closest('ul').height();
