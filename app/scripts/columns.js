@@ -32,7 +32,7 @@ $(function(){
 
       console.log('change', target, 'dragging', dragging);
       if (target !== dragging) {
-        dragging = target;
+        dragging = false;
         hintOn(target);
       }
     },
@@ -45,11 +45,13 @@ $(function(){
 
     },
     receive: function(event, ui) {
-      $('.hint').detach();
+
     },
     stop: function (event, ui) {
       // ui.item.toggleClass("placeholder");
-      dragging = false;
+      $('.hint').each(function(key, value) {
+        $(value).detach();
+      });
     },
     update: function(event, ui) {
       refreshWidths(listOfCollections);
@@ -159,13 +161,20 @@ function countAssets(id) {
  * @param id - id of zone
  */
 function hintOn(id) {
+  // remove all other hints
+  if (!dragging) {
+    $('.hint').each(function(key, value) {
+      $(value).detach();
+    });
+  }
   var selector = '#' + id + ' .collection li';
   var w = $(selector).closest('ul').width();
   var h = $(selector).closest('ul').height();
   var pos = $(selector).closest('ul').position();
-  var hint = '<div id="theHint" class="hint" style="top:'+pos.top+';left:'+pos.left+';width:'+w+'px;height:'+h+'px">&nbsp;</div>';
+  var hint = '<div id="theHint" class="hint" style="top:'+
+      pos.top+';left:'+pos.left+';width:'+w+'px;height:'+h+'px">&nbsp;</div>';
+
   $(selector).closest('ul').prepend(hint);
-console.log('hint', hint);
   dragging = id;
 }
 
